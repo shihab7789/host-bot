@@ -1,0 +1,25 @@
+services:
+  - type: worker
+    name: telegram-bot-host-manager
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    autoDeploy: true
+    disk:
+      name: bot-projects
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: OWNER_ID
+        sync: false
+      - key: PROJECTS_DIR
+        value: /opt/render/project/src/data/projects
+      - key: MAX_UPLOAD_MB
+        value: "10"
+      - key: COMMAND_TIMEOUT_SECONDS
+        value: "600"
+      - key: LOG_LEVEL
+        value: INFO
